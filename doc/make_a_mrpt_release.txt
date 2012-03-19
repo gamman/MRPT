@@ -1,0 +1,37 @@
+
+(These notes are mostly for myself (J.L. Blanco), but hopefully they'll be 
+ useful if someone else maintains MRPT in the future...)
+
+  MRPT release check-list:
+=============================
+
+1) CREATE PACKAGES OF SOURCES
+> Go to mrpt-src. 
+> Update "Build & Install" documentation. 
+> bash scripts/build_docs.sh -c
+> Do the final "svn ci" before the release.
+> bash scripts/prepare_release.sh
+> bash scripts/prepare_debian.sh
+
+The packages are in $(HOME)/mrpt_release and $(HOME)/mrpt_debian
+
+Now for windows binary packages:
+(see also the script: MRPT/scripts/automated_build_msvc_binary_package.bat)
+> Extract mrpt-0.9.3.zip
+> Build in Debug all the mrpt-* libs.
+> Run cmake again (this is to add the debug libs to the list of files to package!).
+> Now build ALL in Release + "make test".
+> If all OK: Build package
+> Install package, test to build "mrpt_example1" with it.
+
+2) DEBIAN PACKAGE
+> Go to mrpt_debian/debian
+> Edit changelog and copy it to my SVN.
+> Go to mrpt_debian
+> debuild -S -sa
+
+3) Try compilation in Debian Unstable
+> sudo ARCH=amd64 DIST=sid pbuilder --update
+> sudo ARCH=amd64 DIST=sid pbuilder --build  MRPT*.dsc
+
+
